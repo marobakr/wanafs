@@ -21,6 +21,7 @@ export class PersonalInformationComponent {
     this.initFormGroup();
   }
   @Output() emitFormData: EventEmitter<FormGroup> = new EventEmitter();
+  @Output() isFirstForm: EventEmitter<boolean> = new EventEmitter();
   @Input() showFirstForm: boolean = true;
   name!: FormControl;
   age!: FormControl;
@@ -51,7 +52,11 @@ export class PersonalInformationComponent {
       this.customValidationMaritalStatus,
       Validators.pattern(/^(single|married|divorced|widowed)$/),
     ]);
-    this.academicStudy = new FormControl('', Validators.required);
+    this.academicStudy = new FormControl('', [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.pattern(/^[a-zA-Z\u0600-\u06FF\s]*$/),
+    ]);
     this.siblingOrder = new FormControl('', [
       Validators.required,
       Validators.pattern(/^\d+$/),
@@ -78,8 +83,8 @@ export class PersonalInformationComponent {
   submitionForm(): void {
     if (this.personalData.valid) {
       this.emitFormData.emit(this.personalData);
+      this.isFirstForm.emit(this.showFirstForm);
       this.showFirstForm = !this.showFirstForm;
-      console.log(this.personalData.value);
     } else {
       this.personalData.markAllAsTouched();
       Object.keys(this.personalData.controls).forEach((key) =>

@@ -1,10 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-health-ambitions',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './health-ambitions.component.html',
   styleUrl: './health-ambitions.component.scss',
 })
@@ -23,12 +29,22 @@ export class HealthAmbitionsComponent {
   healtyData!: FormGroup;
 
   initFormControls() {
-    this.ambitions = new FormControl();
-    this.fears = new FormControl();
-    this.physicalDiseases = new FormControl();
-    this.organicMedications = new FormControl();
-    this.diagnosedMentalDisorder = new FormControl();
-    this.psychiatricMedications = new FormControl();
+    this.ambitions = new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.pattern(/^[a-zA-Z\u0600-\u06FF\s]*$/),
+      Validators.maxLength(200),
+    ]);
+    this.fears = new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.pattern(/^[a-zA-Z\u0600-\u06FF\s]*$/),
+      Validators.maxLength(200),
+    ]);
+    this.physicalDiseases = new FormControl('', Validators.required);
+    this.organicMedications = new FormControl('', Validators.required);
+    this.diagnosedMentalDisorder = new FormControl('', Validators.required);
+    this.psychiatricMedications = new FormControl('', Validators.required);
   }
 
   initFormGroup() {

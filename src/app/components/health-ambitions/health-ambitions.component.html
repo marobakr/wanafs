@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="healtyData">
   <!-- ambitions -->
   <div class="form-floating mb-3">
     <input
@@ -7,8 +7,25 @@
       id="ambitions"
       placeholder="طموحاتك"
       dir="rtl"
+      formControlName="ambitions"
+      [ngClass]="{
+        'border border-danger':
+          ambitions.errors && ambitions.dirty && ambitions.touched,
+        'border border-success':
+          !ambitions.errors && ambitions.dirty && ambitions.touched
+      }"
     />
     <label for="ambitions">طموحاتك</label>
+    <div class="validations-error">
+      @if (ambitions.touched && ambitions.dirty) { @if
+      (ambitions.getError('required')) {
+      <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
+      } @if ( ambitions.getError('minlength')) {
+      <p class="alert alert-warning">قم بادخال طموحاتك بشكل صحيح.</p>
+      } @if ( ambitions.getError('maxlength')) {
+      <p class="alert alert-warning">يجب ألا يزيد عن 500 حرف.</p>
+      } }
+    </div>
   </div>
   <!-- fears -->
   <div class="form-floating mb-3">
@@ -18,56 +35,145 @@
       id="fears"
       placeholder="مخاوفك"
       dir="rtl"
+      formControlName="fears"
+      [ngClass]="{
+        'border border-danger': fears.errors && fears.dirty && fears.touched,
+        'border border-success': !fears.errors && fears.dirty && fears.touched
+      }"
     />
     <label for="fears">مخاوفك</label>
+    <div class="validations-error">
+      @if (fears.touched && fears.dirty) { @if (fears.getError('required')) {
+      <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
+      } @if ( fears.getError('minlength')) {
+      <p class="alert alert-warning">قم بادخال مخاوفك بشكل صحيح.</p>
+      } @if ( fears.getError('maxlength')) {
+      <p class="alert alert-warning">يجب ألا يزيد عن 500 حرف.</p>
+      } }
+    </div>
   </div>
   <!-- physicalDiseases -->
-  <div class="form-floating mb-3">
-    <input
-      type="text"
-      class="form-control"
+
+  <div class="mb-3">
+    <select
+      class="form-select form-select-md mb-3"
+      aria-label=".form-select-lg example"
       id="physicalDiseases"
-      placeholder="هل تعاني من أي أمراض جسدية؟"
-      dir="rtl"
-    />
-    <label for="physicalDiseases">هل تعاني من أي أمراض جسدية؟</label>
+      formControlName="physicalDiseases"
+      [ngClass]="{
+        'border border-danger':
+          physicalDiseases.errors &&
+          physicalDiseases.dirty &&
+          physicalDiseases.touched,
+        'border border-success':
+          !physicalDiseases.errors &&
+          physicalDiseases.dirty &&
+          physicalDiseases.touched
+      }"
+    >
+      <option selected disabled value="">هل تعاني من أي أمراض جسدية؟</option>
+      <option value="true">نعم اعاني</option>
+      <option value="false">لا اعاني</option>
+    </select>
+    <div class="validations-error">
+      @if (physicalDiseases.touched && physicalDiseases.dirty) { @if
+      (physicalDiseases.getError('required')) {
+      <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
+      } }
+    </div>
   </div>
   <!-- organicMedications -->
-  <div class="form-floating mb-3">
-    <input
-      type="text"
-      class="form-control"
+
+  <div class="mb-3">
+    <select
+      class="form-select form-select-md mb-3"
+      aria-label=".form-select-lg example"
       id="organicMedications"
-      placeholder="هل تتناول أدوية عضوية؟"
-      dir="rtl"
-    />
-    <label for="organicMedications">هل تتناول أدوية عضوية؟</label>
-  </div>
-  <!-- diagnosedMentalDisorder -->
-  <div class="form-floating mb-3">
-    <input
-      type="text"
-      class="form-control"
-      id="diagnosedMentalDisorder"
-      placeholder="هل تم تشخيصك بأحد الاضطرابا النفسية؟"
-      dir="rtl"
-    />
-    <label for="diagnosedMentalDisorder"
-      >هل تم تشخيصك بأحد الاضطرابا النفسية؟</label
+      formControlName="organicMedications"
+      [ngClass]="{
+        'border border-danger':
+          organicMedications.errors &&
+          organicMedications.dirty &&
+          organicMedications.touched,
+        'border border-success':
+          !organicMedications.errors &&
+          organicMedications.dirty &&
+          organicMedications.touched
+      }"
     >
-  </div>
-  <!-- psychiatricMedications -->
-  <div class="form-floating mb-3">
-    <input
-      type="text"
-      class="form-control"
-      id="psychiatricMedications"
-      placeholder="هل تتناول أدوية نفسية؟"
-      dir="rtl"
-    />
-    <label for="psychiatricMedications">هل تتناول أدوية نفسية؟</label>
+      <option selected disabled value="">هل تتناول أدوية عضوية؟</option>
+      <option value="true">نعم اعاني</option>
+      <option value="false">لا اعاني</option>
+    </select>
+    <div class="validations-error">
+      @if (organicMedications.touched && organicMedications.dirty) { @if
+      (organicMedications.getError('required')) {
+      <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
+      } }
+    </div>
   </div>
 
+  <!-- diagnosedMentalDisorder -->
+  <div class="mb-3">
+    <select
+      class="form-select form-select-md mb-3"
+      aria-label=".form-select-lg example"
+      id="diagnosedMentalDisorder"
+      formControlName="diagnosedMentalDisorder"
+      [ngClass]="{
+        'border border-danger':
+          diagnosedMentalDisorder.errors &&
+          diagnosedMentalDisorder.dirty &&
+          diagnosedMentalDisorder.touched,
+        'border border-success':
+          !diagnosedMentalDisorder.errors &&
+          diagnosedMentalDisorder.dirty &&
+          diagnosedMentalDisorder.touched
+      }"
+    >
+      <option selected disabled value="">
+        هل تم تشخيصك بأحد الاضطرابا النفسية؟
+      </option>
+      <option value="true">نعم تم تشخصي من قبل</option>
+      <option value="false">لم يتم تشخصي</option>
+    </select>
+    <div class="validations-error">
+      @if (diagnosedMentalDisorder.touched && diagnosedMentalDisorder.dirty) {
+      @if (diagnosedMentalDisorder.getError('required')) {
+      <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
+      } }
+    </div>
+  </div>
+  <!-- psychiatricMedications -->
+
+  <div class="mb-3">
+    <select
+      class="form-select form-select-md mb-3"
+      aria-label=".form-select-lg example"
+      id="psychiatricMedications"
+      formControlName="psychiatricMedications"
+      [ngClass]="{
+        'border border-danger':
+          psychiatricMedications.errors &&
+          psychiatricMedications.dirty &&
+          psychiatricMedications.touched,
+        'border border-success':
+          !psychiatricMedications.errors &&
+          psychiatricMedications.dirty &&
+          diagnosedMentalDisorder.touched
+      }"
+    >
+      <option selected disabled value="">هل تتناول أدوية نفسية؟</option>
+      <option value="true">نعم تناولت من قبل</option>
+      <option value="false">لم اتناول</option>
+    </select>
+    <div class="validations-error">
+      @if (psychiatricMedications.touched && psychiatricMedications.dirty) { @if
+      (psychiatricMedications.getError('required')) {
+      <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
+      } }
+    </div>
+  </div>
   <div class="d-flex justify-content-between align-items-center">
     <button type="button" class="btn btn-secondary">رجوع</button>
     <button class="btn btn-dark">ارسال</button>
