@@ -9,6 +9,7 @@
     @if (showFirstForm) {
     <app-personal-information
       (emitFormData)="handlePersonalInfoSubmit($event)"
+      (isFirstForm)="showFirstForm = $event"
       [showFirstForm]="showFirstForm"
     ></app-personal-information>
     } @if (!showFirstForm) {

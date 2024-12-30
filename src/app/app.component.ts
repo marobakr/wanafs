@@ -17,6 +17,8 @@ import { PersonalInformationComponent } from './components/personal-information/
 })
 export class AppComponent {
   title = 'wanafs';
+  showFirstForm = true;
+  formData: any = {};
   clientData = {
     name: 'John Doe',
     age: 30,
@@ -52,17 +54,13 @@ export class AppComponent {
       console.error('Error sending document:', error);
     }
   }
-  showFirstForm = true;
-  formData: any = {}; // Store complete form data
-
-  toggleForm() {
-    this.showFirstForm = !this.showFirstForm;
-  }
+  // Store complete form data
 
   handlePersonalInfoSubmit(data: any) {
+    console.log('ngOnChanges', this.showFirstForm);
+
     this.formData = { ...this.formData, ...data };
     console.log('this.formData', this.formData);
-    this.toggleForm();
   }
 
   handleHealthInfoSubmit(data: any) {

@@ -3,11 +3,15 @@
   <div class="form-floating mb-3">
     <input
       type="text"
-      class="form-control"
+      class="form-control was-validated"
       id="username"
       placeholder="الاسم"
       dir="rtl"
       formControlName="name"
+      [ngClass]="{
+        'border border-danger': name.errors && name.dirty && name.touched,
+        'border border-success': !name.errors && name.dirty && name.touched
+      }"
     />
     <label for="username">الاسم</label>
     <div class="validations-error">
@@ -29,6 +33,10 @@
       placeholder="العمر"
       formControlName="age"
       dir="rtl"
+      [ngClass]="{
+        'border border-danger': age.errors && age.dirty && age.touched,
+        'border border-success': !age.errors && age.dirty && age.touched
+      }"
     />
     <label for="age">العمر</label>
     <div class="validations-error">
@@ -52,6 +60,10 @@
       placeholder="رقم الهاتف"
       dir="rtl"
       formControlName="phone"
+      [ngClass]="{
+        'border border-danger': phone.errors && phone.dirty && phone.touched,
+        'border border-success': !phone.errors && phone.dirty && phone.touched
+      }"
     />
     <label for="phone">رقم الهاتف</label>
     <div class="validations-error">
@@ -69,6 +81,12 @@
       aria-label=".form-select-lg example"
       id="maritalStatus"
       formControlName="maritalStatus"
+      [ngClass]="{
+        'border border-danger':
+          maritalStatus.errors && maritalStatus.dirty && maritalStatus.touched,
+        'border border-success':
+          !maritalStatus.errors && maritalStatus.dirty && maritalStatus.touched
+      }"
     >
       <option selected disabled value="">الحالة الاجتماعية</option>
       <option value="single">أعزب</option>
@@ -90,12 +108,21 @@
       placeholder="الدراسة الأكاديمية"
       dir="rtl"
       formControlName="academicStudy"
+      [ngClass]="{
+        'border border-danger':
+          academicStudy.errors && academicStudy.dirty && academicStudy.touched,
+        'border border-success':
+          !academicStudy.errors && academicStudy.dirty && academicStudy.touched
+      }"
     />
     <label for="academicStudy">الدراسة الأكاديمية</label>
     <div class="validations-error">
       @if (academicStudy.touched && academicStudy.dirty) { @if
       (academicStudy.getError('required')) {
       <p class="alert alert-warning">الدراسة الأكاديمية مطلوبة.</p>
+      } @if (academicStudy.getError('pattern') ||
+      academicStudy.getError('minlength')) {
+      <p class="alert alert-warning">قم بادخال اسم أكاديمية بشكل صحيح.</p>
       } }
     </div>
   </div>
@@ -108,6 +135,12 @@
       placeholder="الترتيب في الأسرة"
       dir="rtl"
       formControlName="siblingOrder"
+      [ngClass]="{
+        'border border-danger':
+          siblingOrder.errors && siblingOrder.dirty && siblingOrder.touched,
+        'border border-success':
+          !siblingOrder.errors && siblingOrder.dirty && siblingOrder.touched
+      }"
     />
     <label for="siblingOrder">الترتيب في الأسرة</label>
     <div class="validations-error">
