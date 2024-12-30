@@ -1,0 +1,126 @@
+<form [formGroup]="personalData" (ngSubmit)="submitionForm()">
+  <!-- username -->
+  <div class="form-floating mb-3">
+    <input
+      type="text"
+      class="form-control"
+      id="username"
+      placeholder="الاسم"
+      dir="rtl"
+      formControlName="name"
+    />
+    <label for="username">الاسم</label>
+    <div class="validations-error">
+      @if (name.touched && name.dirty) { @if (name.getError('required')) {
+      <p class="alert alert-warning">الاسم مطلوب.</p>
+      } @if (name.getError('minlength')) {
+      <p class="alert alert-warning">الاسم يجب أن يكون على الأقل 3 أحرف.</p>
+      } @if (name.getError('maxlength')) {
+      <p class="alert alert-warning">الاسم يجب ألا يتجاوز 20 حرفًا.</p>
+      } }
+    </div>
+  </div>
+  <!-- age -->
+  <div class="form-floating mb-3">
+    <input
+      type="text"
+      class="form-control"
+      id="age"
+      placeholder="العمر"
+      formControlName="age"
+      dir="rtl"
+    />
+    <label for="age">العمر</label>
+    <div class="validations-error">
+      @if (age.touched && age.dirty) { @if (age.getError('required')) {
+      <p class="alert alert-warning">العمر مطلوب.</p>
+      } @if (age.getError('min')) {
+      <p class="alert alert-warning">العمر يجب أن يكون أكبر من أو يساوي 18.</p>
+      } @if (age.getError('max')) {
+      <p class="alert alert-warning">العمر يجب أن يكون أقل من أو يساوي 60.</p>
+      } @if (age.getError('pattern')) {
+      <p class="alert alert-warning">يجب أن يكون العمر قيمة رقمية.</p>
+      } }
+    </div>
+  </div>
+  <!-- phone -->
+  <div class="form-floating mb-3">
+    <input
+      type="text"
+      class="form-control"
+      id="phone"
+      placeholder="رقم الهاتف"
+      dir="rtl"
+      formControlName="phone"
+    />
+    <label for="phone">رقم الهاتف</label>
+    <div class="validations-error">
+      @if (phone.touched && phone.dirty) { @if (phone.getError('required')) {
+      <p class="alert alert-warning">.رقم الهاتف مطلوب</p>
+      } @if (phone.getError('pattern')) {
+      <p class="alert alert-warning">رقم الهاتف يجب أن يتكون من 11 أرقام</p>
+      } }
+    </div>
+  </div>
+  <!-- maritalStatus -->
+  <div class="mb-3">
+    <select
+      class="form-select form-select-md mb-3"
+      aria-label=".form-select-lg example"
+      id="maritalStatus"
+      formControlName="maritalStatus"
+    >
+      <option selected disabled value="">الحالة الاجتماعية</option>
+      <option value="single">أعزب</option>
+      <option value="married">متزوج</option>
+      <option value="divorced">مطلق</option>
+      <option value="widowed">أرمل</option>
+    </select>
+    @if (maritalStatus.touched ) { @if
+    (maritalStatus.getError('notSelectValue')) {
+    <p class="alert alert-warning">الحالة الاجتماعية مطلوبة .</p>
+    } }
+  </div>
+  <!-- academicStudy -->
+  <div class="form-floating mb-3">
+    <input
+      type="text"
+      class="form-control"
+      id="academicStudy"
+      placeholder="الدراسة الأكاديمية"
+      dir="rtl"
+      formControlName="academicStudy"
+    />
+    <label for="academicStudy">الدراسة الأكاديمية</label>
+    <div class="validations-error">
+      @if (academicStudy.touched && academicStudy.dirty) { @if
+      (academicStudy.getError('required')) {
+      <p class="alert alert-warning">الدراسة الأكاديمية مطلوبة.</p>
+      } }
+    </div>
+  </div>
+  <!-- siblingOrder -->
+  <div class="form-floating mb-3">
+    <input
+      type="text"
+      class="form-control"
+      id="siblingOrder"
+      placeholder="الترتيب في الأسرة"
+      dir="rtl"
+      formControlName="siblingOrder"
+    />
+    <label for="siblingOrder">الترتيب في الأسرة</label>
+    <div class="validations-error">
+      @if (siblingOrder.touched && siblingOrder.dirty ) { @if
+      (siblingOrder.getError('required')) {
+      <p class="alert alert-warning">ترتيبك بين إخوتك مطلوب.</p>
+
+      } @if (siblingOrder.getError('pattern')) {
+      <p class="alert alert-warning">يجب أن يكون ترتيبك بين إخوتك رقمًا.</p>
+
+      } }
+    </div>
+  </div>
+
+  <button class="btn text-bg-dark d-block ms-auto" type="submit">التالي</button>
+</form>
