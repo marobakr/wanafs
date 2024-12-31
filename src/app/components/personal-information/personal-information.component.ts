@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -7,6 +7,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import {
+  HiddenPersonalForm,
+  UpdatePersonalAction,
+} from '../../store/action.form';
+import { IFormStore } from '../../store/store.form';
 
 @Component({
   selector: 'app-personal-information',
@@ -16,13 +22,25 @@ import {
   styleUrl: './personal-information.component.scss',
 })
 export class PersonalInformationComponent {
-  constructor() {
+  constructor(private _store: Store<IFormStore>) {
     this.initFormControls();
     this.initFormGroup();
+    _store.subscribe((data) => {
+      if (data.formState.personalForm.name !== '') {
+        const { name, age, phone, maritalStatus, academicStudy, siblingOrder } =
+          data.formState.personalForm;
+        this.personalData.setValue({
+          name: name,
+          age: age,
+          phone: phone,
+          maritalStatus: maritalStatus,
+          academicStudy: academicStudy,
+          siblingOrder: siblingOrder,
+        });
+      }
+    });
   }
   @Output() emitFormData: EventEmitter<FormGroup> = new EventEmitter();
-  @Output() isFirstForm: EventEmitter<boolean> = new EventEmitter();
-  @Input() showFirstForm: boolean = true;
   name!: FormControl;
   age!: FormControl;
   phone!: FormControl;
@@ -32,7 +50,7 @@ export class PersonalInformationComponent {
   personalData!: FormGroup;
 
   initFormControls() {
-    this.name = new FormControl('', [
+    this.name = new FormControl(this.name, [
       Validators.required,
       Validators.minLength(3),
       Validators.maxLength(20),
@@ -73,6 +91,7 @@ export class PersonalInformationComponent {
       siblingOrder: this.siblingOrder,
     });
   }
+
   customValidationMaritalStatus(constrol: AbstractControl): null | {
     [key: string]: boolean;
   } {
@@ -83,8 +102,8 @@ export class PersonalInformationComponent {
   submitionForm(): void {
     if (this.personalData.valid) {
       this.emitFormData.emit(this.personalData);
-      this.isFirstForm.emit(this.showFirstForm);
-      this.showFirstForm = !this.showFirstForm;
+      this._store.dispatch(new HiddenPersonalForm());
+      this._store.dispatch(new UpdatePersonalAction(this.personalData.value));
     } else {
       this.personalData.markAllAsTouched();
       Object.keys(this.personalData.controls).forEach((key) =>
