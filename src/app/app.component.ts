@@ -1,23 +1,20 @@
 import { Component } from '@angular/core';
 import { Firestore, addDoc, collection } from '@angular/fire/firestore';
-import { RouterOutlet } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { HealthAmbitionsComponent } from './components/health-ambitions/health-ambitions.component';
 import { PersonalInformationComponent } from './components/personal-information/personal-information.component';
+import { IFormStore } from './store/store.form';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    PersonalInformationComponent,
-    HealthAmbitionsComponent,
-  ],
+  imports: [PersonalInformationComponent, HealthAmbitionsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'wanafs';
-  showFirstForm = true;
+  showFirstForm!: boolean;
   formData: any = {};
   clientData = {
     name: 'John Doe',
@@ -35,7 +32,12 @@ export class AppComponent {
     psychiatricMedicationssss: 'No',
   };
 
-  constructor(private _firestore: Firestore) {}
+  constructor(private _firestore: Firestore, _store: Store<IFormStore>) {
+    _store.subscribe((value) => {
+      this.showFirstForm = value.showForm.showPersonalForm;
+      console.log(value.formState);
+    });
+  }
   ngOnInit(): void {
     // this.getData()
     //   .then((data) => console.log(data))
@@ -57,14 +59,12 @@ export class AppComponent {
   // Store complete form data
 
   handlePersonalInfoSubmit(data: any) {
-    console.log('ngOnChanges', this.showFirstForm);
-
-    this.formData = { ...this.formData, ...data };
-    console.log('this.formData', this.formData);
+    // this.formData = { ...this.formData, ...data };
+    console.log('handlePersonalInfoSubmit:', data);
   }
 
   handleHealthInfoSubmit(data: any) {
-    this.formData = { ...this.formData, ...data };
-    console.log('Final Form Data:', this.formData);
+    // this.formData = { ...this.formData, ...data };
+    console.log('handleHealthInfoSubmit:', data);
   }
 }

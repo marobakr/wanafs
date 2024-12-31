@@ -9,11 +9,12 @@
     @if (showFirstForm) {
     <app-personal-information
       (emitFormData)="handlePersonalInfoSubmit($event)"
-      (isFirstForm)="showFirstForm = $event"
-      [showFirstForm]="showFirstForm"
     ></app-personal-information>
-    } @if (!showFirstForm) {
-    <app-health-ambitions></app-health-ambitions>
+    }
+    <p>{{ showFirstForm }}</p>
+    @if (!showFirstForm) {
+    <app-health-ambitions (emitFormData)="handleHealthInfoSubmit($event)">
+    </app-health-ambitions>
     }
   </div>
 </section>

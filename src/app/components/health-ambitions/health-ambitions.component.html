@@ -1,4 +1,4 @@
-<form [formGroup]="healtyData">
+<form [formGroup]="healtyData" (ngSubmit)="submitionForm()">
   <!-- ambitions -->
   <div class="form-floating mb-3">
     <input
@@ -81,7 +81,45 @@
       <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
       } }
     </div>
+    <!-- additionalInput In case True -->
+    @if (physicalDiseases.value === 'true') {
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="fears"
+        placeholder="اذا نعم يرجي ادخال التفاصيل"
+        dir="rtl"
+        formControlName="detailsForphysicalDiseases"
+        [ngClass]="{
+          'border border-danger':
+            DetailsForControl('detailsForphysicalDiseases')?.errors &&
+            DetailsForControl('detailsForphysicalDiseases')?.dirty &&
+            DetailsForControl('detailsForphysicalDiseases')?.touched,
+          'border border-success':
+            !DetailsForControl('detailsForphysicalDiseases')?.errors &&
+            DetailsForControl('detailsForphysicalDiseases')?.dirty &&
+            DetailsForControl('detailsForphysicalDiseases')?.touched
+        }"
+      />
+
+      <label for="DetailsForControl?"
+        >ماهيه الأمراض جسدية التي تعاني منها
+      </label>
+      <div class="validations-error">
+        @if (healtyData.get('detailsForphysicalDiseases')?.touched &&
+        healtyData.get('detailsForphysicalDiseases')?.dirty) { @if
+        (healtyData.get('detailsForphysicalDiseases')?.getError('required')) {
+        <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
+        } @if (
+        healtyData.get('detailsForphysicalDiseases')?.getError('minlength')) {
+        <p class="alert alert-warning">قم بادخال الأمراض جسدية بشكل صحيح.</p>
+        } }
+      </div>
+    </div>
+    }
   </div>
+
   <!-- organicMedications -->
 
   <div class="mb-3">
@@ -106,12 +144,47 @@
       <option value="false">لا اعاني</option>
     </select>
     <div class="validations-error">
-      @if (organicMedications.touched && organicMedications.dirty) { @if
-      (organicMedications.getError('required')) {
-      <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
+      @if (organicMedications.touched ) { @if
+      (organicMedications.getError('notSelectValue')) {
+      <p class="alert alert-warning">هذا الحقل مطلوبة .</p>
       } }
     </div>
   </div>
+  <!-- additionalInput In case True -->
+  @if (organicMedications.value === 'true') {
+  <div class="form-floating mb-3">
+    <input
+      type="text"
+      class="form-control"
+      id="fears"
+      placeholder="اذا نعم يرجي ادخال التفاصيل"
+      dir="rtl"
+      formControlName="detailsForOrganicMedications"
+      [ngClass]="{
+        'border border-danger':
+          DetailsForControl('detailsForOrganicMedications')?.errors &&
+          DetailsForControl('detailsForOrganicMedications')?.dirty &&
+          DetailsForControl('detailsForOrganicMedications')?.touched,
+        'border border-success':
+          !DetailsForControl('detailsForOrganicMedications')?.errors &&
+          DetailsForControl('detailsForOrganicMedications')?.dirty &&
+          DetailsForControl('detailsForOrganicMedications')?.touched
+      }"
+    />
+
+    <label for="DetailsForControl?"> ماهيه أدوية عضوية التي تتناولها ؟ </label>
+    <div class="validations-error">
+      @if (healtyData.get('detailsForOrganicMedications')?.touched &&
+      healtyData.get('detailsForOrganicMedications')?.dirty) { @if
+      (healtyData.get('detailsForOrganicMedications')?.getError('required')) {
+      <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
+      } @if (
+      healtyData.get('detailsForOrganicMedications')?.getError('minlength')) {
+      <p class="alert alert-warning">قم بادخال أدوية عضوية بشكل صحيح.</p>
+      } }
+    </div>
+  </div>
+  }
 
   <!-- diagnosedMentalDisorder -->
   <div class="mb-3">
@@ -138,12 +211,47 @@
       <option value="false">لم يتم تشخصي</option>
     </select>
     <div class="validations-error">
-      @if (diagnosedMentalDisorder.touched && diagnosedMentalDisorder.dirty) {
-      @if (diagnosedMentalDisorder.getError('required')) {
-      <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
+      @if (diagnosedMentalDisorder.touched ) { @if
+      (diagnosedMentalDisorder.getError('notSelectValue')) {
+      <p class="alert alert-warning">هذا الحقل مطلوبة .</p>
       } }
     </div>
   </div>
+  <!-- additionalInput In case True -->
+  @if (diagnosedMentalDisorder.value === 'true') {
+  <div class="form-floating mb-3">
+    <input
+      type="text"
+      class="form-control"
+      id="fears"
+      placeholder="اذا نعم يرجي ادخال التفاصيل"
+      dir="rtl"
+      formControlName="detailsForMentalDisorder"
+      [ngClass]="{
+        'border border-danger':
+          DetailsForControl('detailsForMentalDisorder')?.errors &&
+          DetailsForControl('detailsForMentalDisorder')?.dirty &&
+          DetailsForControl('detailsForMentalDisorder')?.touched,
+        'border border-success':
+          !DetailsForControl('detailsForMentalDisorder')?.errors &&
+          DetailsForControl('detailsForMentalDisorder')?.dirty &&
+          DetailsForControl('detailsForMentalDisorder')?.touched
+      }"
+    />
+
+    <label for="DetailsForControl?"> ماهوه التشخيص ؟ </label>
+    <div class="validations-error">
+      @if (healtyData.get('detailsForMentalDisorder')?.touched &&
+      healtyData.get('detailsForMentalDisorder')?.dirty) { @if
+      (healtyData.get('detailsForMentalDisorder')?.getError('required')) {
+      <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
+      } @if ( healtyData.get('detailsForMentalDisorder')?.getError('minlength'))
+      {
+      <p class="alert alert-warning">قم بادخال التشخيص بشكل صحيح.</p>
+      } }
+    </div>
+  </div>
+  }
   <!-- psychiatricMedications -->
 
   <div class="mb-3">
@@ -168,14 +276,56 @@
       <option value="false">لم اتناول</option>
     </select>
     <div class="validations-error">
-      @if (psychiatricMedications.touched && psychiatricMedications.dirty) { @if
-      (psychiatricMedications.getError('required')) {
-      <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
+      @if (diagnosedMentalDisorder.touched ) { @if
+      (diagnosedMentalDisorder.getError('notSelectValue')) {
+      <p class="alert alert-warning">هذا الحقل مطلوبة .</p>
       } }
     </div>
   </div>
+  @if (psychiatricMedications.value === 'true') {
+  <div class="form-floating mb-3">
+    <input
+      type="text"
+      class="form-control"
+      id="fears"
+      placeholder="اذا نعم يرجي ادخال التفاصيل"
+      dir="rtl"
+      formControlName="detailsForPsychiatricMedications"
+      [ngClass]="{
+        'border border-danger':
+          DetailsForControl('detailsForPsychiatricMedications')?.errors &&
+          DetailsForControl('detailsForPsychiatricMedications')?.dirty &&
+          DetailsForControl('detailsForPsychiatricMedications')?.touched,
+        'border border-success':
+          !DetailsForControl('detailsForPsychiatricMedications')?.errors &&
+          DetailsForControl('detailsForPsychiatricMedications')?.dirty &&
+          DetailsForControl('detailsForPsychiatricMedications')?.touched
+      }"
+    />
+
+    <label for="DetailsForControl?"> ماهوه هيه الأدوية ؟ </label>
+    <div class="validations-error">
+      @if (healtyData.get('detailsForPsychiatricMedications')?.touched &&
+      healtyData.get('detailsForPsychiatricMedications')?.dirty) { @if
+      (healtyData.get('detailsForPsychiatricMedications')?.getError('required'))
+      {
+      <p class="alert alert-warning">هذا الحقل مطلوبة.</p>
+      } @if (
+      healtyData.get('detailsForPsychiatricMedications')?.getError('minlength'))
+      {
+      <p class="alert alert-warning">قم بادخال اسم الدواء بشكل صحيح.</p>
+      } }
+    </div>
+  </div>
+  }
   <div class="d-flex justify-content-between align-items-center">
-    <button type="button" class="btn btn-secondary">رجوع</button>
+    <button
+      (click)="dispatchActionFormBack()"
+      type="button"
+      class="btn btn-secondary"
+    >
+      رجوع
+    </button>
     <button class="btn btn-dark">ارسال</button>
   </div>
 </form>
