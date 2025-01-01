@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import {
+  CLEARALLFORM,
   HIDDEN_PERSONAL_FORM,
   SHOW_PERSONAL_FORM,
   UPDATE_HEALTHY_FORM,
@@ -68,7 +69,8 @@ export const formReducer = (
           ...CustomHealthyAction.payload,
         },
       };
-
+    case CLEARALLFORM:
+      return initStateForm;
     default:
       return state;
   }

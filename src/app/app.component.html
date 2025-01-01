@@ -7,14 +7,9 @@
     </figure>
     <h2>حجز جلسة مع أخصائي نفسي</h2>
     @if (showFirstForm) {
-    <app-personal-information
-      (emitFormData)="handlePersonalInfoSubmit($event)"
-    ></app-personal-information>
-    }
-    <p>{{ showFirstForm }}</p>
-    @if (!showFirstForm) {
-    <app-health-ambitions (emitFormData)="handleHealthInfoSubmit($event)">
-    </app-health-ambitions>
+    <app-personal-information></app-personal-information>
+    } @if (!showFirstForm) {
+    <app-health-ambitions> </app-health-ambitions>
     }
   </div>
 </section>
