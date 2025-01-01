@@ -1,6 +1,7 @@
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { formReducer, reducerToggleForm } from './reducer.form';
 
-interface IPersonalForm {
+export interface IPersonalForm {
   personalForm: {
     name: string;
     age: string;
@@ -10,7 +11,7 @@ interface IPersonalForm {
     siblingOrder: string;
   };
 }
-interface IHealthyForm {
+export interface IHealthyForm {
   healthyForm: {
     ambitions: string;
     fears: string;
@@ -35,3 +36,10 @@ export const AllReducer = {
   showForm: reducerToggleForm,
   formState: formReducer,
 };
+
+const showFormFs = createFeatureSelector<IShowPersonalForm>('showForm');
+
+export const showFormSelctor = createSelector(
+  showFormFs,
+  (state) => state.showPersonalForm
+);

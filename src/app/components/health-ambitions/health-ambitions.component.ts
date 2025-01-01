@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -8,20 +8,28 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { DataFirebaseService } from '../../core/service/data-firebase.service';
 import { ShowPersonalForm, UpdateHealthyAction } from '../../store/action.form';
-import { IFormStore } from '../../store/store.form';
+import { IFormState, IFormStore } from '../../store/store.form';
 
 @Component({
   selector: 'app-health-ambitions',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, NgxSpinnerComponent],
   templateUrl: './health-ambitions.component.html',
   styleUrl: './health-ambitions.component.scss',
 })
 export class HealthAmbitionsComponent {
-  @Output() emitFormData: EventEmitter<FormGroup> = new EventEmitter();
+  registrationForm!: IFormState['personalForm'] & IFormState['healthyForm'];
 
-  constructor(private _store: Store<IFormStore>) {
+  constructor(
+    private _store: Store<IFormStore>,
+    private _dataFirebaseService: DataFirebaseService,
+    private _ngxSpinnerService: NgxSpinnerService,
+    private _toastr: ToastrService
+  ) {
     this.initFormControls();
     this.initFormGroup();
     this.physicalDiseases.valueChanges.subscribe((value) => {
@@ -52,6 +60,10 @@ export class HealthAmbitionsComponent {
       );
     });
     _store.subscribe((data) => {
+      this.registrationForm = {
+        ...data.formState.personalForm,
+        ...data.formState.healthyForm,
+      };
       if (data.formState.healthyForm.ambitions !== '') {
         const {
           ambitions,
@@ -60,7 +72,6 @@ export class HealthAmbitionsComponent {
           organicMedications,
           diagnosedMentalDisorder,
           psychiatricMedications,
-          healtyData,
         } = data.formState.healthyForm;
         this.healtyData.setValue({
           ambitions: ambitions,
@@ -69,7 +80,6 @@ export class HealthAmbitionsComponent {
           organicMedications: organicMedications,
           diagnosedMentalDisorder: diagnosedMentalDisorder,
           psychiatricMedications: psychiatricMedications,
-          healtyData: healtyData,
         });
       }
     });
@@ -148,8 +158,8 @@ export class HealthAmbitionsComponent {
   }
   submitionForm(): void {
     if (this.healtyData.valid) {
-      this.emitFormData.emit(this.healtyData);
       this._store.dispatch(new UpdateHealthyAction(this.healtyData.value));
+      this.setData(this.registrationForm);
     } else {
       this.healtyData.markAllAsTouched();
       Object.keys(this.healtyData.controls).forEach((key) =>
@@ -161,5 +171,25 @@ export class HealthAmbitionsComponent {
   dispatchActionFormBack() {
     this._store.dispatch(new ShowPersonalForm());
     this._store.dispatch(new UpdateHealthyAction(this.healtyData.value));
+  }
+
+  setData(data: IFormState['personalForm'] & IFormState['healthyForm']) {
+    this._toastr.success('successfully');
+    // this._dataFirebaseService.sendData(data).subscribe({
+    //   next: () => {
+    //     this._ngxSpinnerService.show();
+    //     this._store.dispatch({ type: 'CLEARALLFORM' });
+    //   },
+    //   error: (error) => {
+    //     this._ngxSpinnerService.hide();
+    //     this._toastr.error('Error sending data');
+    //   },
+    //   complete: () => {
+    //     setTimeout(() => {
+    //       this._ngxSpinnerService.hide();
+    //     }, 2000);
+    //     console.log('Data sent successfully');
+    //   },
+    // });
   }
 }
